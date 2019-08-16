@@ -1,0 +1,30 @@
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:900&display=swap');
+@import './assets/scss/variables';
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $dark;
+  color: $light;
+}
+.text-dark{
+  color: $dark!important;
+}
+.text-light{
+  color: $light!important;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.icon{
+  filter: invert(0.65) grayscale(0.5);
+}
+.btn-link:hover{
+  text-decoration: none;
+}
+.dropdown-toggle{
+  min-width: 150px;
+}
