@@ -30,7 +30,7 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
   }
   render() {
     return (
-      <Div className={`dropdown mr-3${this.state.currentState ? ' show' : ''}`}>
+      <Div className={`dropdown ${this.state.currentState ? ' show' : ''}`}>
         <Button className="btn btn-secondary dropdown-toggle" onClick={() => this.toggleState()}>
           {this.state.title}
         </Button>

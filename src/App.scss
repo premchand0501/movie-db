@@ -2,6 +2,12 @@
 
 .App{
   padding-top: 5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
 }
 .navbar{
   background-color: $dark;
@@ -19,6 +25,13 @@
   }
 }
 .movie-list{
+  .dropdown{
+    max-width: 50%;
+    flex-basis: 50%;
+    .dropdown-toggle{
+      width: 100%;
+    }
+  }
   .card{
     max-width: 400px;
     background: no-repeat center /cover;
@@ -27,6 +40,8 @@
     height: 300px;
     position: relative;
     cursor: pointer;
+    border-radius: 1rem;
+    border:none;
   }
   .card::after{
     content: "";
@@ -55,9 +70,11 @@
       right: 0;
       top: 0;
     }
-    p{
+    h4, p{
       margin: 0;
+      text-shadow: 0 1px 2px $dark;
     }
+    
     >*{
       text-shadow: 0 1px 1px $dark;
       margin: 0;
@@ -67,5 +84,120 @@
       display: flex;
       align-items: center;
     }
+  }
+  .dropdown{
+    margin-right: 1rem;
+  }
+  .dropdown:last-child{
+    margin-right: 0;
+  }
+}
+.movie-details{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1100;
+  background: $dark no-repeat center fixed /cover;
+  overflow-y: auto;
+  transition: all 0s linear;
+  .backBtn{
+    left: 1rem;
+    top: 1rem;
+    font-size: 2rem;
+    color: $light;
+  }
+  .container-fluid{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: transparentize($color: $dark, $amount: 0.25); 
+  }
+  .container-fluid::after{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    background: -moz-radial-gradient(center, ellipse cover, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 65%); /* FF3.6-15 */
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 65%); /* Chrome10-25,Safari5.1-6 */
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 65%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=1 );
+  }
+  .container{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    .poster{
+      border-radius: 1rem;
+    }
+    .rating{
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-left: 1rem;
+    }
+    h1{
+      font-size: 3rem;
+    }
+    h1, h4, p{
+      margin: 0;
+      text-shadow: 0 1px 2px $dark;
+    }
+  }
+}
+
+.movie-details:after{
+  content: "Movie DB";
+  position: fixed;
+  top: 50vh;
+  left: 0;
+  font-size: 10rem;
+  font-weight: 900;
+  color: rgba(236, 241, 255, 0.15);
+  z-index: -1;
+  width: 100%;
+  text-align: center;
+  line-height: 50vh;
+}
+
+@media screen and (max-width: 420px){
+  .nav-item{
+    svg{
+      transform: scale(1.5);
+    }
+    span{
+      display: none;
+    }
+  }
+}
+.fadeUp{
+  animation: fadeUp 0.5s ease 1 forwards;
+}
+.fadeDown{
+  animation: fadeDown 0.5s ease 1 forwards;
+}
+@keyframes fadeUp{
+  0%{
+    transform: translateY(100vh);
+    opacity: 0.5;
+  }
+  100%{
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fadeDown{
+  0%{
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100%{
+    transform: translateY(100vh);
+    opacity: 0.5;
   }
 }

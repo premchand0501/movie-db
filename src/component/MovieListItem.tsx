@@ -4,16 +4,19 @@ import { IMovieListItemProps } from '../interface/IMovieList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faStar, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { genreList } from './MovieList';
+import { withRouter } from 'react-router-dom';
 
-export const MovieListItem = (props: IMovieListItemProps) => (
-  <Div className="col col-6 col-md-4 col-sm-4">
+const MovieListItem = (props: IMovieListItemProps) => (
+  <Div className="col col-6 col-md-4 col-sm-6">
     <Div className="card" style={{ backgroundImage: `url(http://image.tmdb.org/t/p/w500/${props.movieData.poster_path})` }}
-      onClick={() => props.getMovieDetails(props.movieData.id)}>
+      onClick={() => props.history.push(`/details/${props.movieData.id}`)}>
       <Div className="card-body">
         <Div className="text-right w-100">
-          <Button className={'btn btn-link text-light'}
+          <Button className={`btn btn-link 
+          ${props.favMovies.filter(item => item.id === props.movieData.id).length > 0 ? 'text-danger' : 'text-light'}`}
             onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
               e.stopPropagation();
+              props.addMovieToFav(props.movieData)
             }}><FontAwesomeIcon icon={faHeart} /></Button>
         </Div>
         <Div>
@@ -32,4 +35,5 @@ export const MovieListItem = (props: IMovieListItemProps) => (
       </Div>
     </Div>
   </Div>
-)
+);
+export default withRouter(MovieListItem);
