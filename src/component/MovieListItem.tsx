@@ -3,7 +3,7 @@ import { Div, Heading, P, Span, Button } from "./Element";
 import { IMovieListItemProps } from '../interface/IMovieList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faStar, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { genreList } from './MovieList';
+import { genreList } from '../App';
 import { withRouter } from 'react-router-dom';
 
 const MovieListItem = (props: IMovieListItemProps) => (

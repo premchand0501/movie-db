@@ -170,7 +170,7 @@
     svg{
       transform: scale(1.5);
     }
-    span{
+    span:not(.badge){
       display: none;
     }
   }
@@ -199,5 +199,53 @@
   100%{
     transform: translateY(100vh);
     opacity: 0.5;
+  }
+}
+.searchPage{
+  .container{
+    max-width: 500px;
+    .btn-light{
+      background-color: #fff;
+    }
+    .input-group-lg>.form-control,
+    .input-group-lg>.input-group-append>.btn{
+      border-radius: 1rem;
+    }
+    .input-group>.form-control:not(:last-child){
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .input-group-lg>.input-group-append>.btn:last-child{
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .list-group-item:first-child{
+      border-radius: 0;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+    }
+    .list-group-item:last-child{
+      border-radius: 0;
+      border-bottom-left-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+    }
+    .list-group-item{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      cursor: pointer;
+      .details{
+        margin-left: 1rem;
+      }
+      .details> span{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+      }
+      img{
+        max-width: 80px;
+      }
+    }
   }
 }

@@ -38,3 +38,11 @@ export const Small = (props: PropsWithChildren<HTMLAttributes<HTMLAnchorElement>
 export const Strong = (props: PropsWithChildren<HTMLAttributes<HTMLElement>>) => {
   return (<strong {...props!}>{props!.children}</strong>)
 }
+
+export const Form = (props: PropsWithChildren<HTMLAttributes<HTMLFormElement>>) => (
+  <form {...props}>{props.children}</form>
+);
+
+export const Input = (props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => (
+  <input {...props} />
+);

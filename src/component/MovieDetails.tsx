@@ -1,7 +1,7 @@
 import React from 'react';
 import { Div, Heading, P, Span, Img, Button } from './Element';
-import { IMovieDetailsProps, IMovieDetailsState, IMovieDetails, IGenre } from '../interface/IMovieList';
-import { baseUrl, API_KEY } from './MovieList';
+import { IMovieDetailsProps, IMovieDetailsState, IMovieDetails, IGenre, IMovie } from '../interface/IMovieList';
+import { baseUrl, API_KEY } from '../App';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faStar, faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import { withRouter } from 'react-router';
@@ -55,6 +55,25 @@ class MovieDetails extends React.Component<IMovieDetailsProps, IMovieDetailsStat
       pointerMovementY: e.clientY
     })
   }
+  updateFavs(movieDetails: IMovieDetails) {
+    const movieItem: IMovie = {
+      vote_count: movieDetails.vote_count,
+      id: movieDetails.id,
+      video: movieDetails.video,
+      vote_average: movieDetails.vote_average,
+      title: movieDetails.title,
+      popularity: movieDetails.popularity,
+      poster_path: movieDetails.poster_path,
+      original_language: movieDetails.original_language,
+      original_title: movieDetails.original_title,
+      genre_ids: movieDetails.genres.map(it => it.id),
+      backdrop_path: movieDetails.backdrop_path,
+      adult: movieDetails.adult,
+      overview: movieDetails.overview,
+      release_date: movieDetails.release_date
+    }
+    this.props.updateFavs(movieItem);
+  }
   render() {
     return (
       this.state.movieDetails ? (
@@ -73,6 +92,10 @@ class MovieDetails extends React.Component<IMovieDetailsProps, IMovieDetailsStat
                 <Div className="row">
                   <Div className="col col-4">
                     <Img src={`http://image.tmdb.org/t/p/w500/${this.state.movieDetails!.poster_path}`} className="img-fluid poster" />
+                    <Button className={`btn btn-primary w-100 mt-3 mb-3`} onClick={() => this.updateFavs(this.state.movieDetails!)}>
+                      <Span className={`${this.props.favMovies.filter(item => item.id === this.state.movieDetails!.id).length > 0 ? 'text-danger' : 'text-light'}`}><FontAwesomeIcon icon={faStar} /></Span>
+                      &nbsp;Make Favourite
+                    </Button>
                   </Div>
                   <Div className="col col-8">
                     <Heading datatype="h1" className="title">

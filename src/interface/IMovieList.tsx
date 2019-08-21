@@ -6,6 +6,7 @@ export interface IAppProps {
 export interface IAppStates {
   currentMovieId: number;
   favMovies: IMovie[];
+  scrollPos: number;
 }
 export interface IMovieListProps {
   favMovies: IMovie[];
@@ -26,6 +27,8 @@ export interface IMovieListState {
   sorting: string;
   currentDropdown: string;
   movieList: IMovie[];
+  pageNo: number;
+  scrolled: boolean;
 }
 export interface IMovie {
   vote_count: number;
@@ -92,6 +95,15 @@ export interface IMovieDetailsState {
   backAnim: boolean;
 }
 export interface IMovieDetailsProps extends RouteComponentProps<any> {
-  id: number;
-  goBack(): void;
+  favMovies: IMovie[];
+  updateFavs(movie: IMovie): void;
+}
+
+export interface ISearchProps extends RouteComponentProps<any> {
+
+}
+
+export interface ISearchState {
+  query: string;
+  results: IMovie[];
 }
