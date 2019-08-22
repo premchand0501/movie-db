@@ -1,12 +1,12 @@
 import React from 'react';
-import { IDropdownProps, IDropdownStates } from '../interface/IDropdown';
+import { IDropdownProps, IDropdownStates, IDropdownMenuItem } from '../interface/IDropdown';
 import { Button, Div, List } from './Element';
 
 export class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
   constructor(props: IDropdownProps) {
     super(props);
     this.state = {
-      title: this.props.menuItems[0],
+      title: this.props.menuItems[0].value,
       currentState: this.props.currentState,
     }
     document.addEventListener('removeAllDropdown', () => {
@@ -22,9 +22,10 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
       currentState: !this.state.currentState
     });
   }
-  changeDropdown(dropdownItem: string) {
+  changeDropdown(dropdownItem: IDropdownMenuItem) {
+    this.props.onItemSelect(dropdownItem);
     this.setState({
-      title: dropdownItem,
+      title: dropdownItem.value,
       currentState: false
     })
   }
@@ -36,7 +37,7 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
         </Button>
         <List className={`dropdown-menu-${this.props.menuAlignment} dropdown-menu${this.state.currentState ? ' show' : ''}`}>
           {this.props.menuItems.map((item, index) => (
-            <Button className="dropdown-item" key={index} onClick={() => this.changeDropdown(item)}>{item}</Button>
+            <Button className="dropdown-item" key={index} onClick={() => this.changeDropdown(item)}>{item.value}</Button>
           ))}
         </List>
       </Div>

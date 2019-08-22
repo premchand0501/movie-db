@@ -2,13 +2,14 @@ export interface IDropdownProps {
   currentState: boolean;
   children: React.ReactNode;
   menuAlignment: string;
-  menuItems: string[];
+  menuItems: IDropdownMenuItem[];
+  onItemSelect(item: IDropdownMenuItem): void;
 }
 export interface IDropdownStates {
   currentState: boolean;
   title: string;
 }
-export interface DropdownPropsItem {
-  children: React.ReactNode;
-  show: boolean;
+export interface IDropdownMenuItem {
+  id: string;
+  value: string;
 }

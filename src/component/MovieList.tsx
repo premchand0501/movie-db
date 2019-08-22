@@ -5,17 +5,23 @@ import { Dropdown } from './Dropdown';
 import MovieListItem from './MovieListItem';
 import { Link } from 'react-router-dom';
 import { baseUrl, API_KEY } from '../App';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons';
+import { IDropdownMenuItem } from '../interface/IDropdown';
 
 class MovieList extends React.Component<IMovieListProps, IMovieListState> {
+  filterDropdownMenuItems: IDropdownMenuItem[] = [
+    { id: 'popular', value: 'Popular Movies' },
+    { id: 'top_rated', value: 'Top Rated' },
+    { id: 'upcoming', value: 'Upcoming' },
+    { id: 'now_playing', value: 'Now Playing' }
+  ]
   state = {
     filter: '',
     sorting: '',
     currentDropdown: '',
     movieList: [],
     pageNo: 1,
-    scrolled: false
+    totalPages: 1,
+    scrolled: false,
   }
   async componentDidMount() {
     if (this.props.isFav) {
@@ -24,30 +30,34 @@ class MovieList extends React.Component<IMovieListProps, IMovieListState> {
       })
     }
     else {
-      this.getMovies(this.state.pageNo);
+      const defaultFilter = this.filterDropdownMenuItems[0].id;
+      this.getMovies(this.state.pageNo, defaultFilter);
     }
-    document.querySelector('.App')!.addEventListener('scroll', (e: Event) => {
-      const el: HTMLElement = e.target as HTMLElement;
-      const flag = el.scrollTop >= 100;
-      if (flag !== this.state.scrolled) {
-        this.setState({
-          scrolled: flag
-        })
-      }
-    })
   }
-  async getMovies(pageNo: number) {
-    const moviesRes = await fetch(`${baseUrl}/movie/popular?api_key=${API_KEY}&page=${pageNo}`);
+  async getMovies(pageNo: number, filter: string) {
+    const moviesRes = await fetch(`${baseUrl}/movie/${filter}?api_key=${API_KEY}&page=${pageNo}`);
     const movieResults = await moviesRes.json();
     const movies: IMovie[] = await movieResults.results;
+    let totalPages: number = movieResults.hasOwnProperty('total_pages') ? movieResults.total_pages : 1;
+
+    let prevMovies: IMovie[] = [];
+
+    if (this.state.filter === filter) {
+      prevMovies = [...this.state.movieList, ...movies];
+    }
+    else {
+      prevMovies = [...movies];
+    }
     this.setState({
-      movieList: [...this.state.movieList, ...movies],
-      pageNo: pageNo
+      movieList: prevMovies,
+      pageNo: pageNo,
+      filter: filter,
+      totalPages: totalPages
     })
   }
   loadMore() {
     const newPageno: number = this.state.pageNo + 1;
-    this.getMovies(newPageno);
+    this.getMovies(newPageno, this.state.filter);
   }
   componentWillReceiveProps(nextProps: IMovieListProps) {
     if (nextProps.isFav) {
@@ -56,29 +66,27 @@ class MovieList extends React.Component<IMovieListProps, IMovieListState> {
       })
     }
   }
-  scrollTop() {
-    document.querySelector('.movie-list')!.scrollIntoView({ behavior: 'smooth' });
+  onItemSelect(item: IDropdownMenuItem) {
+    console.log(item);
+    this.getMovies(1, item.id);
   }
   render() {
     return (
       <Div className="container movie-list">
-        <Button className={`btn btn-link text-light btn-lg fixed-bottom${this.state.scrolled ? ' d-inline-block' : ' d-none'}`}
-          onClick={() => this.scrollTop()}>
-          <FontAwesomeIcon icon={faArrowAltCircleUp} />
-        </Button>
         <Div className="row mb-3">
           <Div className="col col-12 col-md-5 d-flex align-items-center justify-content-between">
             <Heading datatype="h1" className="m-0">{this.props.isFav ? 'Favourites' : 'Popular Movies'}</Heading>
           </Div>
           {
             this.props.isFav ? ('') : (
-              <Div className="col col-12 col-md-7 d-flex align-items-center justify-content-between">
+              <Div className="col col-12 col-md-7 d-flex align-items-center justify-content-end">
                 <Dropdown currentState={this.state.currentDropdown === 'Popular Movies'}
-                  menuAlignment="right" menuItems={['Popular Movies', 'Recent', 'Highest Rated']}>
+                  onItemSelect={(item: IDropdownMenuItem) => this.onItemSelect(item)}
+                  menuAlignment="right" menuItems={this.filterDropdownMenuItems}>
                 </Dropdown>
-                <Dropdown currentState={this.state.currentDropdown === 'Sort By'}
+                {/* <Dropdown currentState={this.state.currentDropdown === 'Sort By'}
                   menuAlignment="right" menuItems={['Popular Movies', 'Recent', 'Highest Rated']}>
-                </Dropdown>
+                </Dropdown> */}
               </Div>
             )
           }
@@ -93,9 +101,12 @@ class MovieList extends React.Component<IMovieListProps, IMovieListState> {
                     <MovieListItem favMovies={this.props.favMovies} movieData={movie} key={index} addMovieToFav={this.props.updateFavs} />
                   ))
                 }
-                <Div className="text-center w-100 mb-3">
-                  <Button className="btn btn-warning" onClick={() => this.loadMore()}>Load More</Button>
-                </Div>
+                {
+                  (!this.props.isFav) ? (
+                    <Div className={`text-center w-100 mb-3${this.state.pageNo < this.state.totalPages ? ' d-inline-block' : ' d-none'}`}>
+                      <Button className="btn btn-warning" onClick={() => this.loadMore()}>Load More</Button>
+                    </Div>) : ('')
+                }
               </React.Fragment>
             ) :
               (

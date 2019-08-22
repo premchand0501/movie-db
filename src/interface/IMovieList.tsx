@@ -7,6 +7,7 @@ export interface IAppStates {
   currentMovieId: number;
   favMovies: IMovie[];
   scrollPos: number;
+  scrolled: boolean;
 }
 export interface IMovieListProps {
   favMovies: IMovie[];
@@ -28,6 +29,7 @@ export interface IMovieListState {
   currentDropdown: string;
   movieList: IMovie[];
   pageNo: number;
+  totalPages: number;
   scrolled: boolean;
 }
 export interface IMovie {

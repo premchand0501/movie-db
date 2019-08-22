@@ -2,11 +2,11 @@
 
 .App{
   padding-top: 5rem;
-  position: fixed;
-  top: 0;
-  left: 0;
+  // position: fixed;
+  // top: 0;
+  // left: 0;
   width: 100%;
-  height: 100vh;
+  // height: 100vh;
   overflow-y: auto;
 }
 .navbar{
@@ -28,6 +28,9 @@
   .dropdown{
     max-width: 50%;
     flex-basis: 50%;
+    .dropdown-menu::after{
+      content: '';
+    }
     .dropdown-toggle{
       width: 100%;
     }
@@ -113,7 +116,8 @@
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
     background-color: transparentize($color: $dark, $amount: 0.25); 
   }
   .container-fluid::after{
@@ -183,22 +187,22 @@
 }
 @keyframes fadeUp{
   0%{
-    transform: translateY(100vh);
-    opacity: 0.5;
+    transform: scale(1.25) translateY(100px);
+    opacity: 0;
   }
   100%{
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
     opacity: 1;
   }
 }
 @keyframes fadeDown{
   0%{
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
     opacity: 1;
   }
   100%{
-    transform: translateY(100vh);
-    opacity: 0.5;
+    transform: scale(1.25) translateY(100px);
+    opacity: 0;
   }
 }
 .searchPage{
