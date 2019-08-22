@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import { LocationState } from 'history';
 import './App.scss';
 import Header from './component/Header';
@@ -86,7 +86,7 @@ class App extends React.Component<IAppProps, IAppStates> {
           onClick={() => this.scrollTop()}>
           <FontAwesomeIcon icon={faArrowAltCircleUp} />
         </Button>
-        <Router>
+        <HashRouter>
           <Route render={({ location }: LocationState) => (
             <React.Fragment>
               <Header favs={this.state.favMovies.length} />
@@ -96,8 +96,7 @@ class App extends React.Component<IAppProps, IAppStates> {
                   classNames={{ appear: 'd-none', enter: '', exit: 'fadeDown' }}
                   timeout={{ exit: 550 }}>
                   <Switch location={location}>
-                    <Redirect path="/" to="/listing" exact />
-                    <Route path="/listing" render={() => (
+                    <Route exact path="/" render={() => (
                       <MovieList favMovies={this.state.favMovies} isFav={false}
                         updateFavs={(movie: IMovie) => this.updateFavs(movie)} />)
                     } />
@@ -111,7 +110,7 @@ class App extends React.Component<IAppProps, IAppStates> {
           )}
           />
 
-        </Router>
+        </HashRouter>
       </Div>
     );
   }
