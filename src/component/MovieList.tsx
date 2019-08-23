@@ -60,6 +60,7 @@ class MovieList extends React.Component<IMovieListProps, IMovieListState> {
     this.getMovies(newPageno, this.state.filter);
   }
   componentWillReceiveProps(nextProps: IMovieListProps) {
+    console.log(this.props.isFav)
     if (nextProps.isFav) {
       this.setState({
         movieList: nextProps.favMovies

@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { LocationState } from 'history';
 import './App.scss';
 import Header from './component/Header';
@@ -36,7 +36,6 @@ class App extends React.Component<IAppProps, IAppStates> {
         this.setState({
           scrolled: flag
         })
-        console.log(flag);
       }
     })
     const localFavMovies: any = localStorage.getItem('favMovies');
@@ -96,7 +95,8 @@ class App extends React.Component<IAppProps, IAppStates> {
                   classNames={{ appear: 'd-none', enter: '', exit: 'fadeDown' }}
                   timeout={{ exit: 550 }}>
                   <Switch location={location}>
-                    <Route exact path="/" render={() => (
+                    <Redirect exact path="/" to="/listing" />
+                    <Route path="/listing" render={() => (
                       <MovieList favMovies={this.state.favMovies} isFav={false}
                         updateFavs={(movie: IMovie) => this.updateFavs(movie)} />)
                     } />
